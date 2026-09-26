@@ -4,8 +4,13 @@ import { useEffect, useRef } from "react";
 import hero640 from "@/assets/hero-trilha-640.webp";
 import hero960 from "@/assets/hero-trilha-960.webp";
 import hero1280 from "@/assets/hero-trilha-1280.webp";
+import logo96 from "@/assets/logo-trilheiro-96.webp";
+import logo192 from "@/assets/logo-trilheiro-192.webp";
+import logo288 from "@/assets/logo-trilheiro-288.webp";
 import { ActivityToast } from "@/components/ActivityToast";
+import { SlotsNotice } from "@/components/SlotsNotice";
 import { StickyCta } from "@/components/StickyCta";
+import { TopBanner } from "@/components/TopBanner";
 import { UrgencyBlock } from "@/components/UrgencyBlock";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { SITE_NAME, SITE_URL } from "@/config/site";
@@ -79,12 +84,25 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <TopBanner />
       <main className="mx-auto w-full max-w-xl px-5 pb-28 md:max-w-3xl md:pb-16">
         {/* HERO — gancho de exclusividade + CTA principal */}
         <section className="fade-up pt-8 md:pt-14">
-          <p className="inline-flex items-center gap-2 rounded-full border border-highlight/40 bg-highlight/10 px-3 py-1 text-xs font-semibold tracking-widest text-highlight uppercase">
-            <span aria-hidden="true">🔥</span> Grupo VIP gratuito
-          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src={logo96}
+              srcSet={`${logo96} 96w, ${logo192} 192w, ${logo288} 288w`}
+              sizes="(min-width: 768px) 80px, 64px"
+              alt="Logo do grupo Promoções do Trilheiro"
+              width={96}
+              height={96}
+              decoding="async"
+              className="h-16 w-16 shrink-0 rounded-full md:h-20 md:w-20"
+            />
+            <p className="inline-flex items-center gap-2 rounded-full border border-highlight/40 bg-highlight/10 px-3 py-1 text-xs font-semibold tracking-widest text-highlight uppercase">
+              <span aria-hidden="true">🔥</span> Grupo VIP gratuito
+            </p>
+          </div>
 
           <h1 className="mt-5 font-display text-[2.75rem] leading-[0.95] font-extrabold tracking-tight uppercase min-[360px]:text-5xl sm:text-6xl md:text-7xl">
             Ofertas exclusivas
@@ -103,6 +121,9 @@ function Index() {
               <li>✓ Ofertas e cupons</li>
             </ul>
           </div>
+
+          {/* VAGAS — só com capacidade real; oculto sem dado */}
+          <SlotsNotice className="mt-4" />
 
           <figure className="mt-8 overflow-hidden rounded-2xl border border-border">
             <img

@@ -126,7 +126,8 @@ export type AnalyticsEvent =
   | "whatsapp_click"
   | "page_exit"
   | "activity_toast_view"
-  | "urgency_block_view";
+  | "urgency_block_view"
+  | "capacity_notice_view";
 
 type Payload = Record<string, unknown>;
 const queue: Payload[] = [];

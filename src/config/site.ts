@@ -30,24 +30,37 @@ export const SITE_URL = "";
 export const ANALYTICS_ENDPOINT = "";
 
 /**
- * Endpoint público de status (GET) com dados REAIS do grupo:
- *   { recentActivity?: [{ type: "new_member" | "new_offer", timestamp, text? }],
- *     groupCapacity?: number, currentGroupMembers?: number }
- * Vazio = sem toasts de atividade e sem vagas. Lido uma única vez por carregamento.
+ * Endpoint público de status (GET, JSON, sem credencial) com dados REAIS do grupo:
+ *   {
+ *     groupCapacity?: number,        // capacidade real do grupo
+ *     currentGroupMembers?: number,  // membros atuais (ex.: "size" do grupo na Evolution)
+ *     hasRealCapacity?: boolean,     // true só se groupCapacity for real e confiável
+ *     recentActivity?: [
+ *       { type: "new_member", firstName?: string, timestamp },  // só o primeiro nome
+ *       { type: "new_offer", text?: string, timestamp }
+ *     ]
+ *   }
+ * Vazio = sem toasts e sem vagas. Lido ao abrir e a cada PUBLIC_STATUS_REFRESH_MS
+ * (só com a aba visível).
  */
 export const PUBLIC_STATUS_ENDPOINT = "";
+
+/** Intervalo de atualização do status público (mínimo 30s). */
+export const PUBLIC_STATUS_REFRESH_MS = 60_000;
 
 /** Atividade mais antiga que isso não é exibida como "recente". */
 export const ACTIVITY_MAX_AGE_MIN = 180;
 
 /**
  * Atividade recente REAL (opcional, além do endpoint). Vazio = nenhum toast.
- * Formato: { type: "new_member" | "new_offer", timestamp, text? }.
- * Nunca colocar aqui evento inventado, nome de pessoa ou dado pessoal.
+ * Formato: { type: "new_member" | "new_offer", timestamp, firstName?, text? }.
+ * Nunca colocar evento inventado. firstName só se for REAL (e só o primeiro nome);
+ * nada de sobrenome, telefone ou outro dado pessoal.
  */
 export const RECENT_ACTIVITY: ReadonlyArray<{
   type: "new_member" | "new_offer";
   timestamp: string | number;
+  firstName?: string;
   text?: string;
 }> = [];
 
@@ -59,3 +72,9 @@ export const RECENT_ACTIVITY: ReadonlyArray<{
 export const HAS_REAL_CAPACITY = false;
 export const GROUP_CAPACITY: number | null = null;
 export const CURRENT_GROUP_MEMBERS: number | null = null;
+
+/**
+ * Faixa do topo: frases de escassez ("Grupo quase lotado", "Últimas vagas") só
+ * entram na rotação quando as vagas REAIS restantes forem <= este número.
+ */
+export const LOW_SLOTS_THRESHOLD = 50;

@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react";
-import { SlotsNotice } from "@/components/SlotsNotice";
 import { trackOncePerVisit } from "@/lib/tracking";
 
 /**
  * Urgência sem inventar escassez: sem cronômetro, sem número falso.
- * As vagas só aparecem aqui dentro quando houver capacidade real.
+ * (As vagas reais ficam perto do CTA principal: ver SlotsNotice no hero.)
  */
 export function UrgencyBlock() {
   const ref = useRef<HTMLElement>(null);
@@ -39,7 +38,6 @@ export function UrgencyBlock() {
         Alguns cupons e promoções podem acabar ou mudar sem aviso. No grupo, você recebe assim que
         elas são publicadas.
       </p>
-      <SlotsNotice />
     </section>
   );
 }
