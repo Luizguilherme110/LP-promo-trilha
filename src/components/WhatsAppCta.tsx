@@ -1,7 +1,7 @@
+import { WHATSAPP_GROUP_URL } from "@/config/site";
 import { trackWhatsAppClick } from "@/lib/tracking";
-import { useWhatsAppHref } from "@/lib/useWhatsAppHref";
 
-function WhatsAppIcon({ className }: { className?: string }) {
+export function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -22,17 +22,16 @@ type Props = {
   className?: string;
 };
 
+/** Link oficial do grupo, sem parâmetros extras. O rastreio fica todo em trackWhatsAppClick(). */
 export function WhatsAppCta({ location, children, className = "" }: Props) {
-  const href = useWhatsAppHref();
-
   return (
     <a
-      href={href}
+      href={WHATSAPP_GROUP_URL}
       target="_blank"
       rel="noopener noreferrer"
       data-wa-cta={location}
       onClick={() => trackWhatsAppClick(location)}
-      className={`inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-brand px-6 py-4 font-display text-xl font-bold tracking-wide text-brand-foreground uppercase transition-colors hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:bg-brand/80 ${className}`}
+      className={`inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-brand px-4 py-4 font-display text-lg font-bold min-[360px]:px-6 min-[360px]:text-xl tracking-wide text-brand-foreground uppercase transition-colors hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:bg-brand/80 ${className}`}
     >
       <WhatsAppIcon className="h-6 w-6 shrink-0" />
       <span>{children}</span>
