@@ -5,8 +5,8 @@ import hero640 from "@/assets/hero-trilha-640.webp";
 import hero960 from "@/assets/hero-trilha-960.webp";
 import hero1280 from "@/assets/hero-trilha-1280.webp";
 import { ActivityToast } from "@/components/ActivityToast";
-import { SlotsNotice } from "@/components/SlotsNotice";
 import { StickyCta } from "@/components/StickyCta";
+import { UrgencyBlock } from "@/components/UrgencyBlock";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { SITE_NAME, SITE_URL } from "@/config/site";
 import { loadPublicStatus } from "@/lib/activity";
@@ -101,7 +101,6 @@ function Index() {
             <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
               <li>✓ Entrada gratuita</li>
               <li>✓ Ofertas e cupons</li>
-              <li>✓ Saia quando quiser</li>
             </ul>
           </div>
 
@@ -161,19 +160,8 @@ function Index() {
           </ul>
         </section>
 
-        {/* URGÊNCIA — sem cronômetro nem número inventado */}
-        <section className="mt-12 rounded-xl border-l-4 border-highlight bg-surface p-5">
-          <p className="font-display text-lg font-bold tracking-wide uppercase">
-            <span aria-hidden="true">⏳</span> Não perca as próximas ofertas
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Algumas promoções e cupons podem mudar ou acabar rapidamente. No grupo, você fica
-            sabendo assim que elas aparecem.
-          </p>
-        </section>
-
-        {/* VAGAS — oculto enquanto não houver capacidade/membros reais */}
-        <SlotsNotice />
+        {/* URGÊNCIA — sem cronômetro nem número inventado; vagas reais aparecem dentro */}
+        <UrgencyBlock />
 
         {/* SEGUNDO CTA */}
         <section className="mt-12 border-t border-border pt-10">

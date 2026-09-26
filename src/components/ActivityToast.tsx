@@ -1,46 +1,105 @@
 import { useEffect, useRef, useState } from "react";
 import { formatActivity, onActivity, type ValidActivity } from "@/lib/activity";
+import { trackEvent } from "@/lib/tracking";
 
-const SHOW_MS = 5000;
-const GAP_MS = 1200;
+const SHOW_MS = 4500;
+const GAP_MS = 8000; // intervalo entre toasts em sequência
+const RETRY_MS = 1500; // espera quando o toast cobriria um CTA
+const MAX_RETRIES = 20;
+const MAX_QUEUE = 3;
+
+/** true se o retângulo cobre algum CTA do WhatsApp visível. */
+function coversCta(box: DOMRect): boolean {
+  return [...document.querySelectorAll<HTMLElement>("[data-wa-cta]")].some((el) => {
+    if (el.closest('[aria-hidden="true"]')) return false;
+    const r = el.getBoundingClientRect();
+    return r.left < box.right && r.right > box.left && r.top < box.bottom && r.bottom > box.top;
+  });
+}
 
 /**
- * Toast discreto: topo no mobile (embaixo ficam o CTA fixo e os botões), canto
- * inferior esquerdo no desktop. Só renderiza quando recebe um evento real
- * via showActivityToast(); sem evento, não existe nada na tela.
+ * Toast discreto no canto inferior: no mobile fica acima do CTA fixo; no desktop,
+ * canto inferior esquerdo. Nunca recebe clique (pointer-events: none), nunca
+ * aparece por cima de um CTA e mostra um por vez. Só existe quando recebe um
+ * evento REAL via showActivityToast(); sem evento, nada é renderizado.
  */
 export function ActivityToast() {
   const [current, setCurrent] = useState<ValidActivity | null>(null);
   const [visible, setVisible] = useState(false);
-  const queue = useRef<ValidActivity[]>([]);
-  const busy = useRef(false);
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const box = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const pending = timers.current;
-    const later = (fn: () => void, ms: number) => pending.push(setTimeout(fn, ms));
-    const next = () => {
-      const item = queue.current.shift();
+    const queue: ValidActivity[] = [];
+    const timers = new Set<ReturnType<typeof setTimeout>>();
+    let busy = false;
+    let showing: ValidActivity | null = null;
+    let frame = 0;
+
+    const later = (fn: () => void, ms: number) => {
+      const t = setTimeout(() => {
+        timers.delete(t);
+        fn();
+      }, ms);
+      timers.add(t);
+    };
+    const stopWatching = () => {
+      window.removeEventListener("scroll", onMove);
+      window.removeEventListener("resize", onMove);
+    };
+    const hide = () => {
+      stopWatching();
+      timers.forEach(clearTimeout);
+      timers.clear();
+      showing = null;
+      setVisible(false);
+      later(next, GAP_MS);
+    };
+    // Enquanto visível: se a rolagem trouxer um CTA para baixo do toast, ele sai.
+    function onMove() {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (showing && box.current && coversCta(box.current.getBoundingClientRect())) hide();
+      });
+    }
+    const tryShow = (item: ValidActivity, attempt: number) => {
+      const el = box.current;
+      if (!el) return later(() => tryShow(item, attempt), 50);
+      if (coversCta(el.getBoundingClientRect())) {
+        if (attempt >= MAX_RETRIES) return next(); // desiste deste, segue a fila
+        return later(() => tryShow(item, attempt + 1), RETRY_MS);
+      }
+      showing = item;
+      setVisible(true);
+      trackEvent("activity_toast_view", {
+        activity_type: item.type,
+        activity_age_min: Math.max(0, Math.floor((Date.now() - item.at) / 60_000)),
+      });
+      window.addEventListener("scroll", onMove, { passive: true });
+      window.addEventListener("resize", onMove, { passive: true });
+      later(hide, SHOW_MS);
+    };
+    function next() {
+      const item = queue.shift();
       if (!item) {
-        busy.current = false;
+        busy = false;
         return;
       }
-      busy.current = true;
+      busy = true;
       setCurrent(item);
-      later(() => setVisible(true), 20);
-      later(() => {
-        setVisible(false);
-        later(next, GAP_MS);
-      }, SHOW_MS);
-    };
+      later(() => tryShow(item, 0), 50); // espera renderizar (invisível) pra medir
+    }
+
     const off = onActivity((a) => {
-      if (queue.current.length >= 3) return;
-      queue.current.push(a);
-      if (!busy.current) next();
+      if (queue.length >= MAX_QUEUE) return;
+      queue.push(a);
+      if (!busy) next();
     });
     return () => {
       off();
-      pending.forEach(clearTimeout);
+      stopWatching();
+      timers.forEach(clearTimeout);
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -49,30 +108,22 @@ export function ActivityToast() {
 
   return (
     <div
+      ref={box}
       role="status"
       aria-live="polite"
-      className={`fixed top-[calc(0.75rem+env(safe-area-inset-top))] left-3 z-40 max-w-[calc(100vw-1.5rem)] transition-all duration-300 md:top-auto md:bottom-6 md:left-6 ${
-        visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none -translate-y-2 opacity-0 md:translate-y-2"
+      aria-hidden={!visible}
+      className={`pointer-events-none fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom))] left-3 z-40 max-w-[calc(100vw-1.5rem)] transition-[opacity,transform] duration-300 ease-out md:bottom-6 md:left-6 md:max-w-sm ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
       }`}
     >
-      <div className="flex items-center gap-3 rounded-lg border border-border bg-surface py-2.5 pr-2 pl-3 text-sm shadow-lg shadow-black/30">
-        <span aria-hidden="true" className="text-base">
+      <div className="flex items-center gap-3 rounded-xl border border-border bg-surface py-2.5 pr-4 pl-3 text-sm shadow-lg shadow-black/30">
+        <span aria-hidden="true" className="text-base leading-none">
           {icon}
         </span>
         <p className="min-w-0 leading-snug">
           <span className="font-semibold">{text}</span>
           <span className="block text-xs text-muted-foreground">{ago}</span>
         </p>
-        <button
-          type="button"
-          onClick={() => setVisible(false)}
-          aria-label="Fechar aviso"
-          className="ml-1 grid h-8 w-8 shrink-0 place-items-center rounded-md text-muted-foreground hover:text-foreground focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
-        >
-          <span aria-hidden="true">×</span>
-        </button>
       </div>
     </div>
   );

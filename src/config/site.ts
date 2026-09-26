@@ -31,7 +31,7 @@ export const ANALYTICS_ENDPOINT = "";
 
 /**
  * Endpoint público de status (GET) com dados REAIS do grupo:
- *   { recentActivity?: [{ type: "new_member" | "new_offer", timestamp }],
+ *   { recentActivity?: [{ type: "new_member" | "new_offer", timestamp, text? }],
  *     groupCapacity?: number, currentGroupMembers?: number }
  * Vazio = sem toasts de atividade e sem vagas. Lido uma única vez por carregamento.
  */
@@ -41,10 +41,21 @@ export const PUBLIC_STATUS_ENDPOINT = "";
 export const ACTIVITY_MAX_AGE_MIN = 180;
 
 /**
- * Vagas restantes (remainingSlots = groupCapacity - currentGroupMembers).
- * Só ligue quando houver uma fonte REAL e confiável para os dois números.
- * Desligado ou sem dado válido = o componente não aparece.
+ * Atividade recente REAL (opcional, além do endpoint). Vazio = nenhum toast.
+ * Formato: { type: "new_member" | "new_offer", timestamp, text? }.
+ * Nunca colocar aqui evento inventado, nome de pessoa ou dado pessoal.
  */
-export const SLOTS_ENABLED = false;
+export const RECENT_ACTIVITY: ReadonlyArray<{
+  type: "new_member" | "new_offer";
+  timestamp: string | number;
+  text?: string;
+}> = [];
+
+/**
+ * Vagas restantes (remainingSlots = groupCapacity - currentGroupMembers).
+ * hasRealCapacity: só ligue quando os dois números vierem de uma fonte REAL e
+ * confiável. false (ou dado inválido) = o componente não aparece.
+ */
+export const HAS_REAL_CAPACITY = false;
 export const GROUP_CAPACITY: number | null = null;
 export const CURRENT_GROUP_MEMBERS: number | null = null;

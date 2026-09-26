@@ -99,6 +99,11 @@ function firstInVisit(name: string): boolean {
 }
 const onceMemory = new Set<string>();
 
+/** trackEvent que só dispara na primeira vez desta visita (ex.: blocos vistos). */
+export function trackOncePerVisit(eventName: AnalyticsEvent, data: Payload = {}) {
+  if (isBrowser() && firstInVisit(eventName)) trackEvent(eventName, data);
+}
+
 /* ------------------------- Tempo visível -------------------------- */
 
 // Soma só os intervalos com document.visibilityState === "visible".
@@ -119,7 +124,9 @@ export type AnalyticsEvent =
   | "scroll_50"
   | "cta_view"
   | "whatsapp_click"
-  | "page_exit";
+  | "page_exit"
+  | "activity_toast_view"
+  | "urgency_block_view";
 
 type Payload = Record<string, unknown>;
 const queue: Payload[] = [];
