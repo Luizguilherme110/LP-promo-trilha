@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import heroImg from "@/assets/hero-trilha.jpg";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { StickyCta } from "@/components/StickyCta";
-import { trackPageView } from "@/lib/tracking";
+import { initAnalytics } from "@/lib/tracking";
 
 const TITLE = "Promoção do Trilheiro | Ofertas e Cupons para Trilha";
 const DESCRIPTION =
@@ -54,7 +54,7 @@ function Index() {
   const secondCta = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    trackPageView();
+    initAnalytics();
   }, []);
 
   return (
