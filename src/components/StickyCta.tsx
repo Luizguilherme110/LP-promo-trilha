@@ -39,6 +39,7 @@ export function StickyCta({ watch }: { watch: RefObject<HTMLElement | null>[] })
         target="_blank"
         rel="noopener noreferrer"
         tabIndex={hidden ? -1 : 0}
+        data-wa-cta="sticky_mobile"
         onClick={() => trackWhatsAppClick("sticky_mobile")}
         className="flex min-h-12 items-center justify-center rounded-lg bg-brand px-4 font-display text-lg font-bold tracking-wide text-brand-foreground uppercase transition-colors hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
       >

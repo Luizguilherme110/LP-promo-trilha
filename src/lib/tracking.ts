@@ -339,7 +339,7 @@ export function initAnalytics() {
       (entries) => {
         const hit = entries.find((e) => e.isIntersecting && (e.target as HTMLElement).offsetParent !== null);
         if (hit) {
-          trackEvent("cta_view", { location: (hit.target as HTMLElement).dataset.waCta });
+          trackEvent("cta_view", { location: (hit.target as HTMLElement).dataset["waCta"] });
           ctaObs.disconnect();
         }
       },
