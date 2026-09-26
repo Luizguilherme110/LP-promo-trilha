@@ -7,6 +7,7 @@ import { useWhatsAppHref } from "@/lib/useWhatsAppHref";
  */
 export function StickyCta({ watch }: { watch: RefObject<HTMLElement | null>[] }) {
   const [hidden, setHidden] = useState(true);
+  const href = useWhatsAppHref();
 
   useEffect(() => {
     const elements = watch.map((r) => r.current).filter(Boolean) as HTMLElement[];

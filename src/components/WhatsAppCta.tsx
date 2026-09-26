@@ -23,6 +23,8 @@ type Props = {
 };
 
 export function WhatsAppCta({ location, children, className = "" }: Props) {
+  const href = useWhatsAppHref();
+
   return (
     <a
       href={href}
