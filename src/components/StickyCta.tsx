@@ -1,6 +1,6 @@
 import { useEffect, useState, type RefObject } from "react";
-import { WHATSAPP_GROUP_URL } from "@/config/site";
-import { trackWhatsAppClick, withParams } from "@/lib/tracking";
+import { trackWhatsAppClick } from "@/lib/tracking";
+import { useWhatsAppHref } from "@/lib/useWhatsAppHref";
 
 /**
  * Botão fixo no mobile. Some quando um CTA principal está visível na tela.
@@ -34,7 +34,7 @@ export function StickyCta({ watch }: { watch: RefObject<HTMLElement | null>[] })
       }`}
     >
       <a
-        href={withParams(WHATSAPP_GROUP_URL)}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         tabIndex={hidden ? -1 : 0}

@@ -1,5 +1,5 @@
-import { WHATSAPP_GROUP_URL } from "@/config/site";
-import { trackWhatsAppClick, withParams } from "@/lib/tracking";
+import { trackWhatsAppClick } from "@/lib/tracking";
+import { useWhatsAppHref } from "@/lib/useWhatsAppHref";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -25,7 +25,7 @@ type Props = {
 export function WhatsAppCta({ location, children, className = "" }: Props) {
   return (
     <a
-      href={withParams(WHATSAPP_GROUP_URL)}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => trackWhatsAppClick(location)}
