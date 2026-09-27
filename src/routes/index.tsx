@@ -7,7 +7,7 @@ import hero1280 from "@/assets/hero-trilha-1280.webp";
 import logo96 from "@/assets/logo-trilheiro-96.webp";
 import logo192 from "@/assets/logo-trilheiro-192.webp";
 import logo288 from "@/assets/logo-trilheiro-288.webp";
-import { ActivityToast } from "@/components/ActivityToast";
+import { PromoToast } from "@/components/PromoToast";
 import { SlotsNotice } from "@/components/SlotsNotice";
 import { StickyCta } from "@/components/StickyCta";
 import { TopBanner } from "@/components/TopBanner";
@@ -213,7 +213,7 @@ function Index() {
       </footer>
 
       <StickyCta watch={[heroCta, secondCta]} />
-      <ActivityToast />
+      <PromoToast />
     </div>
   );
 }

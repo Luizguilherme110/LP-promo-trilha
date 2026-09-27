@@ -1,9 +1,10 @@
+import { Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { getSlots, onSlots, visibleRemainingSlots } from "@/lib/activity";
 import { trackOncePerVisit } from "@/lib/tracking";
 
 /**
- * "🔥 Vagas restantes: N" — só com capacidade REAL (hasRealCapacity === true e
+ * "⏳ Vagas restantes: N" (ícone de relógio, como na referência) — só com capacidade REAL (hasRealCapacity === true e
  * números coerentes, ver config/site.ts). Atualiza sozinho quando o status real
  * muda. Sem isso, não renderiza nada.
  */
@@ -36,22 +37,18 @@ export function SlotsNotice({ className = "" }: { className?: string }) {
       ref={ref}
       aria-label="Vagas no grupo"
       aria-live="polite"
-      className={`inline-flex items-center gap-2.5 rounded-xl border border-highlight/40 bg-highlight/10 px-4 py-2.5 ${className}`}
+      className={`inline-flex items-center gap-2.5 rounded-xl border border-highlight/40 bg-highlight/10 px-5 py-3 ${className}`}
     >
-      <span aria-hidden="true" className="text-lg leading-none">
-        🔥
-      </span>
+      <Clock aria-hidden="true" className="h-5 w-5 shrink-0 text-highlight" />
       {remaining > 0 ? (
-        <p className="font-display text-lg font-bold tracking-wide uppercase">
-          Vagas restantes:{" "}
-          <span className="text-2xl leading-none text-highlight tabular-nums">
+        <p className="text-base font-semibold">
+          <span aria-hidden="true">⏳</span> Vagas restantes:{" "}
+          <span className="text-2xl leading-none font-extrabold text-highlight tabular-nums">
             {remaining.toLocaleString("pt-BR")}
           </span>
         </p>
       ) : (
-        <p className="font-display text-lg font-bold tracking-wide uppercase">
-          Grupo cheio no momento
-        </p>
+        <p className="text-base font-semibold">Grupo cheio no momento</p>
       )}
     </div>
   );

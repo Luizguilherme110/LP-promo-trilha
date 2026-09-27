@@ -30,39 +30,31 @@ export const SITE_URL = "";
 export const ANALYTICS_ENDPOINT = "";
 
 /**
- * Endpoint público de status (GET, JSON, sem credencial) com dados REAIS do grupo:
+ * Endpoint público de status (GET, JSON, sem credencial) com as vagas REAIS do grupo:
  *   {
  *     groupCapacity?: number,        // capacidade real do grupo
  *     currentGroupMembers?: number,  // membros atuais (ex.: "size" do grupo na Evolution)
- *     hasRealCapacity?: boolean,     // true só se groupCapacity for real e confiável
- *     recentActivity?: [
- *       { type: "new_member", firstName?: string, timestamp },  // só o primeiro nome
- *       { type: "new_offer", text?: string, timestamp }
- *     ]
+ *     hasRealCapacity?: boolean      // true só se groupCapacity for real e confiável
  *   }
- * Vazio = sem toasts e sem vagas. Lido ao abrir e a cada PUBLIC_STATUS_REFRESH_MS
- * (só com a aba visível).
+ * Vazio = sem vagas. Lido ao abrir e a cada PUBLIC_STATUS_REFRESH_MS (só com a aba visível).
  */
 export const PUBLIC_STATUS_ENDPOINT = "";
 
 /** Intervalo de atualização do status público (mínimo 30s). */
 export const PUBLIC_STATUS_REFRESH_MS = 60_000;
 
-/** Atividade mais antiga que isso não é exibida como "recente". */
-export const ACTIVITY_MAX_AGE_MIN = 180;
-
 /**
- * Atividade recente REAL (opcional, além do endpoint). Vazio = nenhum toast.
- * Formato: { type: "new_member" | "new_offer", timestamp, firstName?, text? }.
- * Nunca colocar evento inventado. firstName só se for REAL (e só o primeiro nome);
- * nada de sobrenome, telefone ou outro dado pessoal.
+ * Toast do canto inferior: frases de chamada fixas, em rotação. Não são eventos
+ * nem pessoas — só chamadas verdadeiras sobre o grupo. Nunca usar aqui "fulano
+ * entrou no grupo" ou qualquer afirmação de algo que não aconteceu.
  */
-export const RECENT_ACTIVITY: ReadonlyArray<{
-  type: "new_member" | "new_offer";
-  timestamp: string | number;
-  firstName?: string;
-  text?: string;
-}> = [];
+export const TOAST_PHRASES: ReadonlyArray<{ icon: string; title: string; line: string }> = [
+  { icon: "🔥", title: "Novas ofertas todo dia", line: "direto no WhatsApp" },
+  { icon: "🎟️", title: "Cupons e descontos", line: "publicados no grupo" },
+  { icon: "✅", title: "Entrar é grátis", line: "é só tocar no botão verde" },
+  { icon: "🏍️", title: "Peças, pneus e equipamentos", line: "para trilha, enduro e motocross" },
+  { icon: "⚡", title: "Promoções podem acabar rápido", line: "entre para não perder" },
+];
 
 /**
  * Vagas restantes (remainingSlots = groupCapacity - currentGroupMembers).
