@@ -107,11 +107,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
  * Meta Pixel — instalado UMA vez, no <head>, antes da hidratação: o PageView sai
  * uma vez por carregamento real do documento (o guard evita reexecução em HMR).
  * autoConfig=false desliga os "eventos automáticos" do Meta (ex.: SubscribedButtonClick
- * a cada clique), para o Pixel receber só PageView e WhatsAppClick. A forma sem ID é a
+ * a cada clique), para o Pixel receber só PageView e Contact. A forma sem ID é a
  * que o plugin "inferredevents" respeita (disableAutoConfig global); a com ID é a documentada.
  * disablePushState: a LP tem uma rota só; impede PageView extra se o router mexer no
  * history (pushState/replaceState) depois do fbevents.js carregar.
- * O clique no WhatsApp (trackCustom "WhatsAppClick") fica em lib/tracking.ts.
+ * O clique no WhatsApp (track "Contact", evento padrão) fica em lib/tracking.ts.
  */
 const PIXEL_SNIPPET = `if(!window.__pdtPixel){window.__pdtPixel=1;
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
