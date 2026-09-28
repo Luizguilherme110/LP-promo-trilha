@@ -84,8 +84,8 @@ export const TOAST_NOTIFICATIONS: ReadonlyArray<{ name: string; time: string }> 
  */
 export const TOAST_FIRST_DELAY_MS = 2_500;
 export const TOAST_SHOW_MS = 4_500;
-export const TOAST_MIN_GAP_MS = 15_000;
-export const TOAST_MAX_GAP_MS = 24_000;
+export const TOAST_MIN_GAP_MS = 10_000;
+export const TOAST_MAX_GAP_MS = 16_000;
 
 /**
  * Vagas restantes:
