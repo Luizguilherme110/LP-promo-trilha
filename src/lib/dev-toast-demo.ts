@@ -10,7 +10,7 @@ import type { ToastItem } from "@/config/site";
 
 const DEMO_MESSAGE = "Acabou de entrar no grupo";
 
-const DEMO_NOTIFICATIONS: ReadonlyArray<{ name: string; time: string }> = [
+export const TOAST_NOTIFICATIONS: ReadonlyArray<{ name: string; time: string }> = [
   { name: "João Pedro", time: "há 2 minutos" },
   { name: "Lucas Gabriel", time: "há 4 minutos" },
   { name: "Matheus Martins", time: "agora mesmo" },
@@ -33,6 +33,6 @@ const DEMO_NOTIFICATIONS: ReadonlyArray<{ name: string; time: string }> = [
   { name: "Yago Andrade", time: "há 1 minuto" },
 ];
 
-export const DEMO_TOAST_ITEMS: ReadonlyArray<ToastItem> = DEMO_NOTIFICATIONS.map(
+export const DEMO_TOAST_ITEMS: ReadonlyArray<ToastItem> = TOAST_NOTIFICATIONS.map(
   ({ name, time }) => ({ icon: "✓", title: name, line: DEMO_MESSAGE, meta: time }),
 );
