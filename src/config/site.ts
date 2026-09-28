@@ -52,7 +52,7 @@ export const PUBLIC_STATUS_REFRESH_MS = 60_000;
  * ============================================================
  *
  * Nomes e horários fictícios para uma simulação visual do toast.
- * Sem identificação visível de exemplo, a demonstração fica restrita ao desenvolvimento local.
+ * A demonstração pode aparecer publicamente com identificação visível em cada aviso.
  */
 export const TOAST_DEMO_MODE = true;
 

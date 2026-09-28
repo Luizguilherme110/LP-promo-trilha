@@ -9,8 +9,7 @@ import {
 } from "@/config/site";
 import { trackEvent } from "@/lib/tracking";
 
-// Nomes fictícios sem indicação visual só podem aparecer na demonstração local.
-const items = TOAST_DEMO_MODE && import.meta.env.DEV ? TOAST_NOTIFICATIONS : [];
+const items = TOAST_DEMO_MODE ? TOAST_NOTIFICATIONS : [];
 
 const RETRY_MS = 1500;
 const SAFE_GAP_PX = 20;
@@ -178,7 +177,9 @@ export function PromoToast() {
         <p className="min-w-0 leading-tight">
           <span className="block truncate text-sm font-bold text-foreground">{currentToast.name}</span>
           <span className="mt-0.5 block text-xs text-muted-foreground">Acabou de entrar no grupo</span>
-          <span className="mt-0.5 block text-[11px] text-muted-foreground/80">{currentToast.time}</span>
+          <span className="mt-0.5 block text-xs text-muted-foreground">
+            {currentToast.time} · Simulação
+          </span>
         </p>
         <button
           type="button"

@@ -9,4 +9,4 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- PromoToast reads its sole demonstration list from `TOAST_NOTIFICATIONS` in site config only in local development; without a visible fiction label, hiding it in production prevents invented names from posing as real activity.
+- PromoToast reads its sole demonstration list from `TOAST_NOTIFICATIONS` in site config in development and production; visibly label each notice as a simulation so invented names cannot be mistaken for real activity.
