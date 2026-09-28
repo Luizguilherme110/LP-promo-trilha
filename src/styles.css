@@ -179,6 +179,26 @@
   }
 }
 
+/* Carrossel contínuo: a trilha tem 2 cópias iguais, então -50% cai exatamente no começo da 2ª. */
+@utility marquee {
+  animation: marquee 40s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Fade nas bordas laterais (entrada e saída do carrossel). */
+@utility fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

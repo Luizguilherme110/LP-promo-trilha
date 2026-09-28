@@ -1,12 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 
-import hero640 from "@/assets/hero-trilha-640.webp";
-import hero960 from "@/assets/hero-trilha-960.webp";
-import hero1280 from "@/assets/hero-trilha-1280.webp";
 import logo96 from "@/assets/logo-trilheiro-96.webp";
 import logo192 from "@/assets/logo-trilheiro-192.webp";
 import logo288 from "@/assets/logo-trilheiro-288.webp";
+import { GroupPrints } from "@/components/GroupPrints";
 import { PromoToast } from "@/components/PromoToast";
 import { SlotsNotice } from "@/components/SlotsNotice";
 import { StickyCta } from "@/components/StickyCta";
@@ -125,19 +123,8 @@ function Index() {
           {/* VAGAS — só com capacidade real; oculto sem dado */}
           <SlotsNotice className="mt-4" />
 
-          <figure className="mt-8 overflow-hidden rounded-2xl border border-border">
-            <img
-              src={hero960}
-              srcSet={`${hero640} 640w, ${hero960} 960w, ${hero1280} 1280w`}
-              sizes="(min-width: 768px) 720px, calc(100vw - 2.5rem)"
-              alt="Piloto de enduro acelerando em uma trilha de barro no meio da mata"
-              width={1280}
-              height={960}
-              decoding="async"
-              fetchPriority="high"
-              className="h-52 w-full object-cover sm:h-64 md:h-80"
-            />
-          </figure>
+          {/* PROVA — prints reais do grupo rodando em carrossel */}
+          <GroupPrints className="mt-8" />
         </section>
 
         {/* GRUPO VIP GRATUITO — o que é o grupo */}
