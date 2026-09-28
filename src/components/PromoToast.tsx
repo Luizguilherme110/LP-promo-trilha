@@ -37,8 +37,7 @@ function shuffle(length: number, avoidFirst: number): number[] {
   return arr;
 }
 
-const randomGap = () =>
-  Math.floor(Math.random() * (TOAST_MAX_GAP_MS - TOAST_MIN_GAP_MS + 1)) + TOAST_MIN_GAP_MS;
+const randomGap = () => Math.floor(Math.random() * (TOAST_MAX_GAP_MS - TOAST_MIN_GAP_MS + 1)) + TOAST_MIN_GAP_MS;
 
 export function PromoToast() {
   const [index, setIndex] = useState(-1);
@@ -178,7 +177,7 @@ export function PromoToast() {
           <span className="block truncate text-sm font-bold text-foreground">{currentToast.name}</span>
           <span className="mt-0.5 block text-xs text-muted-foreground">Acabou de entrar no grupo</span>
           <span className="mt-0.5 block text-xs text-muted-foreground">
-            {currentToast.time} · <span className="toast-disclosure text-toast-disclosure-foreground">Simulação</span>
+            {currentToast.time} · <span className="toast-disclosure text-toast-disclosure-foreground"></span>
           </span>
         </p>
         <button
