@@ -1,1 +1,1 @@
-- [ ] Trocar a cor da palavra “Simulação” para #1D1A17 e verificar no aviso.
+- [ ] Deixar “Simulação” na cor #1D1A17 sem fundo claro e verificar no aviso.

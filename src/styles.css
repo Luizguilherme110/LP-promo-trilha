@@ -166,6 +166,11 @@
   padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
 }
 
+/* Preserva a identificação da simulação legível no aviso escuro, sem tarja. */
+.toast-disclosure {
+  -webkit-text-stroke: 0.6px var(--muted-foreground);
+}
+
 @utility fade-up {
   animation: fade-up 0.5s ease-out both;
 }
