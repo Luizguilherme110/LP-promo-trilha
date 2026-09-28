@@ -9,7 +9,7 @@ import {
 } from "@/config/site";
 import { trackEvent } from "@/lib/tracking";
 
-const items = TOAST_DEMO_MODE ? TOAST_NOTIFICATIONS : [];
+const items = TOAST_NOTIFICATIONS;
 
 const RETRY_MS = 1500;
 const SAFE_GAP_PX = 20;
