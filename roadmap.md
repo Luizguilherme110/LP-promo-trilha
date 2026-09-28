@@ -1,1 +1,1 @@
-- [ ] Deixar “Simulação” na cor #1D1A17 sem fundo claro e verificar no aviso.
+- [x] Deixar “Simulação” na cor #1D1A17 sem fundo claro e verificar no aviso.
