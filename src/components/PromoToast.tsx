@@ -42,13 +42,12 @@ const randomGap = () => Math.floor(Math.random() * (TOAST_MAX_GAP_MS - TOAST_MIN
 export function PromoToast() {
   const [index, setIndex] = useState(-1);
   const [visible, setVisible] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
   const orderRef = useRef<number[]>([]);
   const positionRef = useRef(0);
   const box = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (items.length === 0 || dismissed) return;
+    if (items.length === 0) return;
 
     const timers = new Set<ReturnType<typeof setTimeout>>();
     let showing = false;
@@ -149,9 +148,9 @@ export function PromoToast() {
       if (frame) cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [dismissed]);
+  }, []);
 
-  if (items.length === 0 || dismissed) return null;
+  if (items.length === 0) return null;
 
   const currentToast = index >= 0 ? items[index] : undefined;
   if (!currentToast) return null;
@@ -177,18 +176,6 @@ export function PromoToast() {
           <span className="block truncate text-sm font-bold text-foreground">{currentToast.name}</span>
           <span className="mt-0.5 block text-xs text-muted-foreground">Acabou de entrar no grupo</span>
         </p>
-        <button
-          type="button"
-          onClick={() => {
-            setDismissed(true);
-            setVisible(false);
-          }}
-          tabIndex={visible ? 0 : -1}
-          className={`${visible ? "pointer-events-auto" : "pointer-events-none"} shrink-0 self-start border-none bg-transparent p-1 text-base text-muted-foreground transition-colors hover:text-foreground`}
-          aria-label="Fechar notificação"
-        >
-          ✕
-        </button>
       </div>
     </div>
   );
