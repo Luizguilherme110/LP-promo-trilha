@@ -1,22 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import {
   TOAST_DEMO_MODE,
-  TOAST_NOTIFICATIONS,
-  TOAST_MESSAGE,
+  TOAST_PHRASES,
   TOAST_FIRST_DELAY_MS,
   TOAST_SHOW_MS,
   TOAST_MIN_GAP_MS,
   TOAST_MAX_GAP_MS,
+  type ToastItem,
 } from "@/config/site";
 import { trackEvent } from "@/lib/tracking";
 
 /**
- * Proteção de produção: os dados de TOAST_NOTIFICATIONS são fictícios.
- * Só aparecem com TOAST_DEMO_MODE = true E em desenvolvimento (`vite dev`).
- * No build de produção `import.meta.env.DEV` é `false` (constante), então o
- * componente sempre retorna null, mesmo que TOAST_DEMO_MODE fique true.
+ * Fonte do conteúdo:
+ * - produção (e dev sem demo): TOAST_PHRASES, frases públicas verdadeiras;
+ * - demonstração: nomes fictícios de lib/dev-toast-demo.ts, só com
+ *   TOAST_DEMO_MODE = true E em `vite dev`. No build `import.meta.env.DEV` é
+ *   `false` (constante), então o import da demo sai do bundle e os nomes nunca
+ *   chegam ao site publicado. O componente em si roda nos dois casos.
  */
-const DEMO_ENABLED = TOAST_DEMO_MODE === true && import.meta.env.DEV === true;
+const DEMO_SOURCE = TOAST_DEMO_MODE === true && import.meta.env.DEV === true;
 
 const RETRY_MS = 1500;
 const SAFE_GAP_PX = 20;
@@ -48,6 +50,8 @@ const randomGap = () =>
   Math.floor(Math.random() * (TOAST_MAX_GAP_MS - TOAST_MIN_GAP_MS + 1)) + TOAST_MIN_GAP_MS;
 
 export function PromoToast() {
+  // Na demo começa vazio até o módulo de demonstração carregar (sem piscar frase pública antes).
+  const [items, setItems] = useState<ReadonlyArray<ToastItem>>(DEMO_SOURCE ? [] : TOAST_PHRASES);
   const [index, setIndex] = useState(-1);
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
@@ -56,7 +60,26 @@ export function PromoToast() {
   const box = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!DEMO_ENABLED || TOAST_NOTIFICATIONS.length === 0 || dismissed) return;
+    // `import.meta.env.DEV` direto no `if` (e não via DEMO_SOURCE): assim o bundler
+    // descarta o import antes de gerar chunks, e nem o arquivo da demo vai pro build.
+    if (import.meta.env.DEV && TOAST_DEMO_MODE) {
+      let alive = true;
+      import("@/lib/dev-toast-demo")
+        .then((m) => {
+          if (alive) setItems(m.DEMO_TOAST_ITEMS);
+        })
+        .catch(() => {
+          if (alive) setItems(TOAST_PHRASES);
+        });
+      return () => {
+        alive = false;
+      };
+    }
+    return undefined;
+  }, []);
+
+  useEffect(() => {
+    if (items.length === 0 || dismissed) return;
 
     const timers = new Set<ReturnType<typeof setTimeout>>();
     let showing = false;
@@ -117,7 +140,7 @@ export function PromoToast() {
 
     const prepare = () => {
       if (positionRef.current >= orderRef.current.length) {
-        orderRef.current = shuffle(TOAST_NOTIFICATIONS.length, last);
+        orderRef.current = shuffle(items.length, last);
         positionRef.current = 0;
       }
       const i = orderRef.current[positionRef.current]!;
@@ -157,11 +180,11 @@ export function PromoToast() {
       if (frame) cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [dismissed]);
+  }, [dismissed, items]);
 
-  if (!DEMO_ENABLED || TOAST_NOTIFICATIONS.length === 0 || dismissed) return null;
+  if (items.length === 0 || dismissed) return null;
 
-  const currentToast = index >= 0 ? TOAST_NOTIFICATIONS[index] : undefined;
+  const currentToast = index >= 0 ? items[index] : undefined;
   if (!currentToast) return null;
 
   return (
@@ -179,17 +202,19 @@ export function PromoToast() {
           aria-hidden="true"
           className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-lg font-bold text-brand-foreground"
         >
-          ✓
+          {currentToast.icon}
         </span>
         <p className="min-w-0 leading-tight">
           <span className="block truncate text-sm font-bold text-foreground">
-            {currentToast.name}
+            {currentToast.title}
           </span>
-          <span className="mt-0.5 block text-xs text-muted-foreground">{TOAST_MESSAGE}</span>
-          <span className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground/80">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
-            {currentToast.time}
-          </span>
+          <span className="mt-0.5 block text-xs text-muted-foreground">{currentToast.line}</span>
+          {currentToast.meta && (
+            <span className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground/80">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
+              {currentToast.meta}
+            </span>
+          )}
         </p>
         <button
           type="button"
