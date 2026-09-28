@@ -169,7 +169,17 @@ export function PromoToast() {
       }`}
     >
       <div className="flex items-center gap-3 rounded-xl border border-border bg-surface py-2.5 pr-3 pl-2.5 shadow-lg shadow-black/30">
-        <p className="min-w-0 truncate text-sm font-bold text-foreground">{currentToast.name}</p>
+        <span
+          aria-hidden="true"
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-lg font-bold text-brand-foreground"
+        >
+          ✓
+        </span>
+        <p className="min-w-0 leading-tight">
+          <span className="block truncate text-sm font-bold text-foreground">{currentToast.name}</span>
+          <span className="mt-0.5 block text-xs text-muted-foreground">Acabou de entrar no grupo</span>
+          <span className="mt-0.5 block text-[11px] text-muted-foreground/80">{currentToast.time}</span>
+        </p>
         <button
           type="button"
           onClick={() => {
