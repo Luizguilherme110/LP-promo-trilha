@@ -181,7 +181,7 @@ export function PromoToast() {
           <span className="mt-0.5 block text-xs text-muted-foreground">Acabou de entrar no grupo</span>
           <span className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground/80">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
-            {currentToast.time} · Exemplo fictício
+            {currentToast.time} · Simulação
           </span>
         </p>
         <button
