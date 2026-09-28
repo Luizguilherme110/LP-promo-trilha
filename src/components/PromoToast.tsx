@@ -177,7 +177,7 @@ export function PromoToast() {
           <span className="block truncate text-sm font-bold text-foreground">{currentToast.name}</span>
           <span className="mt-0.5 block text-xs text-muted-foreground">Acabou de entrar no grupo</span>
           <span className="mt-0.5 block text-xs text-muted-foreground">
-            {currentToast.time} · <span className="toast-disclosure text-toast-disclosure-foreground"></span>
+            {currentToast.time} · <span className="toast-disclosure text-toast-disclosure-foreground">Simulação</span>
           </span>
         </p>
         <button
