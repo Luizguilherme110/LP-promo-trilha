@@ -48,16 +48,16 @@ export const PUBLIC_STATUS_REFRESH_MS = 60_000;
 
 /**
  * ============================================================
- * TOAST DE ATIVIDADE
+ * TOAST DE ATIVIDADE / DEMONSTRAÇÃO
  * ============================================================
  *
- * Estrutura usada pelo PromoToast:
- * {
- *   name: string,
- *   time: string
- * }
+ * Os dados abaixo são somente para demonstração visual/local.
  *
- * Atualmente configurado para demonstração visual.
+ * Em produção, com `TOAST_DEMO_MODE = false`, essa lista NÃO
+ * deve ser exibida.
+ *
+ * Futuramente essa estrutura poderá ser substituída por dados
+ * reais do backend.
  */
 export const TOAST_DEMO_MODE = true;
 
@@ -88,7 +88,7 @@ export const TOAST_NOTIFICATIONS: ReadonlyArray<{
   ];
 
 /**
- * Texto exibido abaixo do nome no toast.
+ * Texto da demonstração.
  */
 export const TOAST_MESSAGE = "Acabou de entrar no grupo";
 
@@ -99,19 +99,6 @@ export const TOAST_FIRST_DELAY_MS = 2_500;
 export const TOAST_SHOW_MS = 4_500;
 export const TOAST_MIN_GAP_MS = 15_000;
 export const TOAST_MAX_GAP_MS = 24_000;
-
-/**
- * Toast do canto inferior (é esta lista que o PromoToast mostra): frases de
- * chamada fixas, em rotação. Não são eventos nem pessoas — só chamadas
- * verdadeiras sobre o grupo.
- */
-export const TOAST_PHRASES: ReadonlyArray<{ icon: string; title: string; line: string }> = [
-  { icon: "🔥", title: "Novas ofertas todo dia", line: "direto no WhatsApp" },
-  { icon: "🎟️", title: "Cupons e descontos", line: "publicados no grupo" },
-  { icon: "✅", title: "Entrar é grátis", line: "é só tocar no botão verde" },
-  { icon: "🏍️", title: "Peças, pneus e equipamentos", line: "para trilha, enduro e motocross" },
-  { icon: "⚡", title: "Promoções podem acabar rápido", line: "entre para não perder" },
-];
 
 /**
  * Vagas restantes:
