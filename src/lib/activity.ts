@@ -5,8 +5,7 @@
  * é true (config ou endpoint) e os números são coerentes. Nada aqui gera,
  * simula ou completa dado sozinho (sem Math.random, sem decremento artificial).
  *
- * (O toast da página não usa dados: gira frases de chamada fixas, ver
- * TOAST_PHRASES em config/site.ts.)
+ * (O toast da página é uma demonstração fictícia, não usa dados de vagas.)
  */
 import {
   CURRENT_GROUP_MEMBERS,
