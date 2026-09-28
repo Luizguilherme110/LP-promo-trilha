@@ -51,22 +51,33 @@ export const PUBLIC_STATUS_REFRESH_MS = 60_000;
  * TOAST (PromoToast)
  * ============================================================
  *
- * Duas fontes de conteúdo, separadas:
- * - PÚBLICA (site publicado): TOAST_PHRASES, logo abaixo. Frases de chamada
- *   verdadeiras sobre o grupo — não são eventos nem pessoas.
- * - DEMONSTRAÇÃO (só `vite dev`): nomes/horários FICTÍCIOS em
- *   lib/dev-toast-demo.ts. Usada só com TOAST_DEMO_MODE = true E em
- *   desenvolvimento; não entra no build de produção. Nunca é prova social real.
+ * Nomes e horários fictícios para uma simulação visual do toast.
+ * A demonstração pode ser exibida no site publicado, sempre identificada como exemplo.
  */
 export const TOAST_DEMO_MODE = true;
 
-export type ToastItem = {
-  icon: string;
-  title: string;
-  line: string;
-  /** Linha extra opcional (ex.: horário, só na demonstração). */
-  meta?: string;
-};
+export const TOAST_NOTIFICATIONS: ReadonlyArray<{ name: string; time: string }> = [
+  { name: "João Pedro", time: "há 2 minutos" },
+  { name: "Lucas Gabriel", time: "há 4 minutos" },
+  { name: "Matheus Martins", time: "agora mesmo" },
+  { name: "Bruno Almeida", time: "há 1 minuto" },
+  { name: "Rafael Souza", time: "há 5 minutos" },
+  { name: "Carlos Ribeiro", time: "agora mesmo" },
+  { name: "Gabriel Costa", time: "há 2 minutos" },
+  { name: "Pedro Rocha", time: "há 4 minutos" },
+  { name: "Gustavo Mendes", time: "agora mesmo" },
+  { name: "Felipe Carvalho", time: "há 3 minutos" },
+  { name: "André Oliveira", time: "há 1 minuto" },
+  { name: "Diego Moreira", time: "agora mesmo" },
+  { name: "Victor Nunes", time: "há 2 minutos" },
+  { name: "Thiago Ferreira", time: "há 6 minutos" },
+  { name: "Leonardo Barbosa", time: "há 3 minutos" },
+  { name: "Eduardo Teixeira", time: "agora mesmo" },
+  { name: "Caio Cardoso", time: "há 4 minutos" },
+  { name: "Nicolas Azevedo", time: "há 2 minutos" },
+  { name: "Rodrigo Freitas", time: "agora mesmo" },
+  { name: "Yago Andrade", time: "há 1 minuto" },
+];
 
 /**
  * Timings do PromoToast.
@@ -75,15 +86,6 @@ export const TOAST_FIRST_DELAY_MS = 2_500;
 export const TOAST_SHOW_MS = 4_500;
 export const TOAST_MIN_GAP_MS = 15_000;
 export const TOAST_MAX_GAP_MS = 24_000;
-
-/** Conteúdo PÚBLICO do toast (é o que aparece no site publicado). */
-export const TOAST_PHRASES: ReadonlyArray<ToastItem> = [
-  { icon: "🔥", title: "Novas ofertas todo dia", line: "direto no WhatsApp" },
-  { icon: "🎟️", title: "Cupons e descontos", line: "publicados no grupo" },
-  { icon: "✅", title: "Entrar é grátis", line: "é só tocar no botão verde" },
-  { icon: "🏍️", title: "Peças, pneus e equipamentos", line: "para trilha, enduro e motocross" },
-  { icon: "⚡", title: "Promoções podem acabar rápido", line: "entre para não perder" },
-];
 
 /**
  * Vagas restantes:
