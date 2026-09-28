@@ -194,7 +194,7 @@ function Index() {
           </p>
           <p className="mt-3 text-xs text-muted-foreground/80">
             Esta página usa o Meta Pixel e métricas anônimas de navegação. Não coletamos nome,
-            telefone ou e-mail.
+            telefone ou e-mail. Contém simulação.
           </p>
         </div>
       </footer>
