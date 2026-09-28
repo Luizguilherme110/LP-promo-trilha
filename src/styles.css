@@ -72,7 +72,7 @@
   --radius: 0.625rem;
   --background: oklch(0.17 0.006 60);
   --surface: oklch(0.22 0.008 60);
-  --toast-disclosure-foreground: #110f0d;
+  --toast-disclosure-foreground: #1d1a17;
   --foreground: oklch(0.97 0.004 90);
   --brand: oklch(0.63 0.16 150);
   --brand-foreground: oklch(0.99 0 0);
