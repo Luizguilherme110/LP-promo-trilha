@@ -9,7 +9,8 @@ import {
 } from "@/config/site";
 import { trackEvent } from "@/lib/tracking";
 
-const items = TOAST_DEMO_MODE ? TOAST_NOTIFICATIONS : [];
+// Nomes fictícios sem indicação visual só podem aparecer na demonstração local.
+const items = TOAST_DEMO_MODE && import.meta.env.DEV ? TOAST_NOTIFICATIONS : [];
 
 const RETRY_MS = 1500;
 const SAFE_GAP_PX = 20;
@@ -168,22 +169,7 @@ export function PromoToast() {
       }`}
     >
       <div className="flex items-center gap-3 rounded-xl border border-border bg-surface py-2.5 pr-3 pl-2.5 shadow-lg shadow-black/30">
-        <span
-          aria-hidden="true"
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-lg font-bold text-brand-foreground"
-        >
-          ✓
-        </span>
-        <p className="min-w-0 leading-tight">
-          <span className="block truncate text-sm font-bold text-foreground">
-            {currentToast.name}
-          </span>
-          <span className="mt-0.5 block text-xs text-muted-foreground">Acabou de entrar no grupo</span>
-          <span className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground/80">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
-            {currentToast.time} · Simulação
-          </span>
-        </p>
+        <p className="min-w-0 truncate text-sm font-bold text-foreground">{currentToast.name}</p>
         <button
           type="button"
           onClick={() => {
