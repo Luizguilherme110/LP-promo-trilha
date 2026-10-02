@@ -27,7 +27,7 @@ export const SITE_URL = "";
  * Endpoint público de analytics.
  * Vazio = nenhuma chamada externa.
  */
-export const ANALYTICS_ENDPOINT = "";
+export const ANALYTICS_ENDPOINT = "https://servidor.tail67936f.ts.net/lp-eventos";
 
 /**
  * Endpoint público de status com dados reais do grupo.
