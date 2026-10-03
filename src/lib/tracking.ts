@@ -121,7 +121,10 @@ export type AnalyticsEvent =
   | "page_view"
   | "engaged_5s"
   | "engaged_15s"
+  | "scroll_25"
   | "scroll_50"
+  | "scroll_75"
+  | "scroll_100"
   | "cta_view"
   | "whatsapp_click"
   | "page_exit"
@@ -330,18 +333,31 @@ export function initAnalytics() {
   });
   if (document.visibilityState === "visible") resume();
 
-  // --- scroll_50: fundo da tela passou da metade do documento. 1x por visita.
-  if (!session((s) => s.getItem("pdt_once_scroll_50") === "1", false)) {
+  // --- scroll_25/50/75/100: fundo da tela passou de 25/50/75% do documento
+  // (100 = chegou ao fim, com folga de 2% pra arredondamento). 1x cada por visita.
+  const scrollMarks = [
+    ["scroll_25", 0.25],
+    ["scroll_50", 0.5],
+    ["scroll_75", 0.75],
+    ["scroll_100", 0.98],
+  ] as const;
+  const scrollPending = scrollMarks.filter(
+    ([n]) => !session((s) => s.getItem(`pdt_once_${n}`) === "1", false),
+  );
+  if (scrollPending.length) {
     let ticking = false;
     const check = () => {
       ticking = false;
       const doc = document.documentElement;
       const reached = (window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1);
-      if (reached >= 0.5) {
-        window.removeEventListener("scroll", onScroll);
-        if (firstInVisit("scroll_50"))
-          trackEvent("scroll_50", { scroll_ratio: Number(reached.toFixed(2)) });
+      let next = scrollPending[0];
+      while (next && reached >= next[1]) {
+        scrollPending.shift();
+        if (firstInVisit(next[0]))
+          trackEvent(next[0], { scroll_ratio: Number(reached.toFixed(2)) });
+        next = scrollPending[0];
       }
+      if (!scrollPending.length) window.removeEventListener("scroll", onScroll);
     };
     const onScroll = () => {
       if (!ticking) {
