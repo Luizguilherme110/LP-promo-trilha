@@ -52,7 +52,7 @@ export function SlotsNotice({ className = "" }: { className?: string }) {
       ref={ref}
       aria-label="Vagas no grupo"
       aria-live="polite"
-      className={`inline-flex items-center gap-2.5 rounded-xl border border-highlight/40 bg-highlight/10 px-5 py-3 ${className}`}
+      className={`mx-auto flex w-fit items-center gap-2.5 rounded-xl border border-highlight/40 bg-highlight/10 px-5 py-3 ${className}`}
     >
       <Clock aria-hidden="true" className="h-5 w-5 shrink-0 text-highlight" />
       {remaining > 0 ? (
