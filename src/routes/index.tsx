@@ -113,11 +113,10 @@ function Index() {
           </p>
 
           <div ref={heroCta} className="mt-6">
-            <WhatsAppCta location="hero">Entrar no grupo gratuito</WhatsAppCta>
-            <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
-              <li>✓ Entrada gratuita</li>
-              <li>✓ Ofertas e cupons</li>
-            </ul>
+            <WhatsAppCta location="hero">Entrar no grupo agora</WhatsAppCta>
+            <p className="mt-3 text-center text-sm text-muted-foreground">
+              Grátis • Acesso imediato • Saia quando quiser
+            </p>
           </div>
 
           {/* VAGAS — só com capacidade real; oculto sem dado */}
@@ -180,7 +179,7 @@ function Index() {
             Um clique e você começa a receber as próximas promoções.
           </p>
           <div ref={secondCta} className="mt-5">
-            <WhatsAppCta location="secondary">Entrar no WhatsApp</WhatsAppCta>
+            <WhatsAppCta location="secondary">Entrar no grupo agora</WhatsAppCta>
           </div>
         </section>
       </main>

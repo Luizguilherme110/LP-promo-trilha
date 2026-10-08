@@ -3,34 +3,49 @@ import { useEffect, useRef, useState } from "react";
 import { getSlots, onSlots, visibleRemainingSlots } from "@/lib/activity";
 import { trackOncePerVisit } from "@/lib/tracking";
 
+const SYNTHETIC_START = 7;
+const SYNTHETIC_FLOOR = 2;
+const SYNTHETIC_STEP_MS = 8_000;
+
 /**
- * "⏳ Vagas restantes: N" (ícone de relógio, como na referência) — só com capacidade REAL (hasRealCapacity === true e
- * números coerentes, ver config/site.ts). Atualiza sozinho quando o status real
- * muda. Sem isso, não renderiza nada.
+ * "⏳ Vagas restantes: N" (ícone de relógio, como na referência).
+ * Uma capacidade real e coerente sempre tem prioridade. Sem essa integração,
+ * usa a urgência visual de sessão: começa em 7 e reduz até 2 a cada 8 segundos.
  */
 export function SlotsNotice({ className = "" }: { className?: string }) {
   const [state, setState] = useState(getSlots);
+  const [syntheticRemaining, setSyntheticRemaining] = useState(SYNTHETIC_START);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => onSlots(setState), []);
 
-  const remaining = visibleRemainingSlots(state);
+  const realRemaining = visibleRemainingSlots(state);
+  const remaining = realRemaining ?? syntheticRemaining;
+
+  useEffect(() => {
+    if (realRemaining !== null) return;
+    const id = window.setInterval(() => {
+      setSyntheticRemaining((current) => Math.max(SYNTHETIC_FLOOR, current - 1));
+    }, SYNTHETIC_STEP_MS);
+    return () => window.clearInterval(id);
+  }, [realRemaining]);
 
   useEffect(() => {
     const el = ref.current;
-    if (remaining === null || !el || !("IntersectionObserver" in window)) return;
+    if (!el || !("IntersectionObserver" in window)) return;
     const obs = new IntersectionObserver(
       (entries) => {
         if (!entries.some((e) => e.isIntersecting)) return;
         obs.disconnect();
-        trackOncePerVisit("capacity_notice_view", { remaining_slots: remaining });
+        trackOncePerVisit("capacity_notice_view", {
+          remaining_slots: remaining,
+          capacity_source: realRemaining === null ? "session_countdown" : "real",
+        });
       },
       { threshold: 0.6 },
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [remaining]);
-
-  if (remaining === null) return null;
+  }, [realRemaining, remaining]);
 
   return (
     <div

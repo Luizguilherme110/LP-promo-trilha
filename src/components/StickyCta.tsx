@@ -42,7 +42,7 @@ export function StickyCta({ watch }: { watch: RefObject<HTMLElement | null>[] })
         onClick={() => trackWhatsAppClick("sticky_mobile")}
         className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-brand px-4 font-display text-lg font-bold tracking-wide text-brand-foreground uppercase transition-colors hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:bg-brand/80"
       >
-        <span aria-hidden="true">🔥</span> Entrar no grupo
+        <span aria-hidden="true">🔥</span> Entrar no grupo agora
       </a>
     </div>
   );
