@@ -1,7 +1,7 @@
 /**
  * Camada de rastreamento.
  * - Meta Pixel: instalado uma única vez no <head> (__root.tsx) com PageView;
- *   aqui só dispara o Contact (evento padrão) no clique do WhatsApp.
+ *   aqui só dispara o Lead (evento padrão) no clique do WhatsApp.
  * - Analytics próprio (analyticsProvider): eventos internos, UTMs, visita_id, tempo visível.
  * Sem credenciais, sem IP, sem dados pessoais, sem fingerprinting.
  */
@@ -245,8 +245,10 @@ export function trackWhatsAppClick(location: string) {
   trackEvent("whatsapp_click", { location, destino: WHATSAPP_GROUP_URL });
   flushEvents();
   const w = window as PixelWindow;
-  // Evento padrão Contact (contato via chat), não custom: o Meta Ads otimiza por ele.
-  if (typeof w.fbq === "function") w.fbq("track", "Contact", { content_name: "grupo_whatsapp" });
+  // Para esta campanha, o clique para entrar no grupo é o limite mensurável do funil
+  // e funciona como Lead de otimização. A entrada real no grupo é medida separadamente.
+  if (typeof w.fbq === "function")
+    w.fbq("track", "Lead", { content_name: "grupo_whatsapp" });
 }
 
 /* ------------------------- Inicialização -------------------------- */
