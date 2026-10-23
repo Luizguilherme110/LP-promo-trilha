@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Promoção do Trilheiro" },
       { property: "og:site_name", content: "Promoção do Trilheiro" },
       { property: "og:locale", content: "pt_BR" },
-      { name: "theme-color", content: "#1c1917" },
+      { name: "theme-color", content: "#101611" },
     ],
     links: [
       {

@@ -4,7 +4,6 @@ import { getSlots, onSlots, visibleRemainingSlots } from "@/lib/activity";
 
 const ROTATE_MS = 3500;
 
-/** Sempre verdadeiras. */
 const PHRASES = [
   "🎁 Ofertas exclusivas!",
   "✅ Grupo VIP gratuito",
@@ -12,13 +11,8 @@ const PHRASES = [
   "⚡ Promoções podem acabar rápido",
 ];
 
-/** Escassez: só entram na rotação com vagas REAIS abaixo do limite. */
 const LOW_SLOTS_PHRASES = ["🔥 Grupo quase lotado!", "⏰ Últimas vagas!"];
 
-/**
- * Faixa no topo com frases alternando. Frases de escassez dependem de dado
- * real de vagas (hasRealCapacity + remainingSlots <= LOW_SLOTS_THRESHOLD).
- */
 export function TopBanner() {
   const [slots, setSlots] = useState(getSlots);
   const [index, setIndex] = useState(0);
@@ -30,7 +24,7 @@ export function TopBanner() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      if (document.visibilityState === "visible") setIndex((i) => i + 1);
+      if (document.visibilityState === "visible") setIndex((current) => current + 1);
     }, ROTATE_MS);
     return () => clearInterval(id);
   }, []);
@@ -40,7 +34,7 @@ export function TopBanner() {
   return (
     <div
       aria-live="off"
-      className="w-full bg-highlight px-4 py-2.5 text-center text-sm font-bold tracking-wide text-background"
+      className="w-full border-b border-brand/30 bg-brand/15 px-4 py-2.5 text-center text-sm font-bold tracking-wide text-highlight"
     >
       <span key={phrase} className="inline-block animate-in duration-500 fade-in">
         <span className="animate-pulse">{phrase}</span>

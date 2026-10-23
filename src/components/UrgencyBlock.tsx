@@ -1,3 +1,4 @@
+import { Hourglass } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { trackOncePerVisit } from "@/lib/tracking";
 
@@ -29,7 +30,7 @@ export function UrgencyBlock() {
       className="mt-12 rounded-xl border border-highlight/40 bg-highlight/10 p-5 sm:p-6"
     >
       <p className="flex items-center gap-2 text-xs font-semibold tracking-widest text-highlight uppercase">
-        <span aria-hidden="true">⏳</span> Atenção
+        <Hourglass aria-hidden="true" className="h-4 w-4 shrink-0" /> Atenção
       </p>
       <h2 className="mt-2 font-display text-2xl leading-tight font-extrabold uppercase sm:text-3xl">
         Ofertas podem mudar <span className="text-highlight">rapidamente</span>

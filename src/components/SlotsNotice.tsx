@@ -57,7 +57,7 @@ export function SlotsNotice({ className = "" }: { className?: string }) {
       <Clock aria-hidden="true" className="h-5 w-5 shrink-0 text-highlight" />
       {remaining > 0 ? (
         <p className="text-base font-semibold">
-          <span aria-hidden="true">⏳</span> Vagas restantes:{" "}
+          Vagas restantes:{" "}
           <span className="text-2xl leading-none font-extrabold text-highlight tabular-nums">
             {remaining.toLocaleString("pt-BR")}
           </span>

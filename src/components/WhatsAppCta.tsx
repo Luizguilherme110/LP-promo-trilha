@@ -31,7 +31,7 @@ export function WhatsAppCta({ location, children, className = "" }: Props) {
       rel="noopener noreferrer"
       data-wa-cta={location}
       onClick={() => trackWhatsAppClick(location)}
-      className={`inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-brand px-4 py-4 font-display text-lg font-bold min-[360px]:px-6 min-[360px]:text-xl tracking-wide text-brand-foreground uppercase transition-colors hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:bg-brand/80 ${className}`}
+      className={`inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-2xl bg-brand px-4 py-4 font-display text-lg font-extrabold tracking-wide text-brand-foreground uppercase transition-[background-color,box-shadow,transform] duration-300 min-[360px]:px-6 min-[360px]:text-xl hover:bg-brand/95 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:scale-[0.98] active:bg-brand/85 ${className}`}
     >
       <WhatsAppIcon className="h-6 w-6 shrink-0" />
       <span>{children}</span>

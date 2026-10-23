@@ -19,7 +19,6 @@ const TITLE = "Promoção do Trilheiro | Ofertas e Cupons para Trilha";
 const DESCRIPTION =
   "Ofertas, cupons e promoções para trilha, enduro, motocross e off-road. Entre gratuitamente no grupo do Promoção do Trilheiro.";
 
-// og:url / og:image / canonical precisam de URL absoluta: só saem com SITE_URL definido.
 const absolute = SITE_URL
   ? [
       { property: "og:url", content: `${SITE_URL}/` },
@@ -84,49 +83,39 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <TopBanner />
       <main className="mx-auto w-full max-w-xl px-5 pb-28 md:max-w-3xl md:pb-16">
-        {/* HERO — gancho de exclusividade + CTA principal */}
-        <section className="fade-up pt-8 md:pt-14">
-          <div className="flex items-center gap-3">
-            <img
-              src={logo96}
-              srcSet={`${logo96} 96w, ${logo192} 192w, ${logo288} 288w`}
-              sizes="(min-width: 768px) 80px, 64px"
-              alt="Logo do grupo Promoções do Trilheiro"
-              width={96}
-              height={96}
-              decoding="async"
-              className="h-16 w-16 shrink-0 rounded-full md:h-20 md:w-20"
-            />
-            <p className="inline-flex items-center gap-2 rounded-full border border-highlight/40 bg-highlight/10 px-3 py-1 text-xs font-semibold tracking-widest text-highlight uppercase">
-              <span aria-hidden="true">🔥</span> Grupo VIP gratuito
-            </p>
-          </div>
+        <section className="fade-up flex flex-col items-center pt-7 text-center sm:pt-10 md:pt-12">
+          <img
+            src={logo192}
+            srcSet={`${logo96} 96w, ${logo192} 192w, ${logo288} 288w`}
+            sizes="(min-width: 768px) 144px, 120px"
+            alt="Logo do grupo Promoções do Trilheiro"
+            width={192}
+            height={192}
+            decoding="async"
+            className="h-[7.5rem] w-[7.5rem] rounded-full object-cover sm:h-[8.5rem] sm:w-[8.5rem] md:h-36 md:w-36"
+          />
 
-          <h1 className="mt-5 font-display text-[2.75rem] leading-[0.95] font-extrabold tracking-tight uppercase min-[360px]:text-5xl sm:text-6xl md:text-7xl">
-            Ofertas exclusivas
-            <br />
-            <span className="text-highlight">para trilheiros</span>
+          <h1 className="mt-4 max-w-xl text-balance font-display text-[1.5rem] leading-[1.02] font-extrabold tracking-[-0.02em] uppercase min-[390px]:text-[1.65rem] sm:text-[2rem] md:text-[2.5rem]">
+            Ofertas para sua trilha!
+            <span className="mt-1 block text-highlight">
+              Peças e equipamentos com preços baixos.
+            </span>
           </h1>
 
-          <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Cupons, descontos e oportunidades em produtos para trilha, enduro e off-road.
+          <p className="mt-4 text-sm font-semibold text-foreground sm:text-base">
+            Grupo VIP gratuito, direto no WhatsApp.
           </p>
 
-          <div ref={heroCta} className="mt-6">
-            <WhatsAppCta location="hero">Entrar no grupo agora</WhatsAppCta>
-            <p className="mt-3 text-center text-sm text-muted-foreground">
-              Grátis • Acesso imediato • Saia quando quiser
-            </p>
+          <div ref={heroCta} className="mt-3 w-full max-w-xl">
+            <WhatsAppCta location="hero" className="whatsapp-neon">
+              Entrar no grupo agora
+            </WhatsAppCta>
           </div>
 
-          {/* VAGAS — só com capacidade real; oculto sem dado */}
-          <SlotsNotice className="mt-4" />
-
-          {/* PROVA — prints reais do grupo rodando em carrossel */}
+          <SlotsNotice className="mt-5" />
           <GroupPrints className="mt-8" />
         </section>
 
-        {/* GRUPO VIP GRATUITO — o que é o grupo */}
         <section className="mt-12 border-t border-border pt-10">
           <p className="text-xs font-semibold tracking-widest text-highlight uppercase">
             Como funciona
@@ -140,26 +129,25 @@ function Index() {
           </p>
         </section>
 
-        {/* BENEFÍCIOS */}
         <section className="mt-12 border-t border-border pt-10">
           <h2 className="font-display text-2xl font-bold tracking-wide uppercase">
             O que você recebe no grupo
           </h2>
           <ul className="mt-6 space-y-6">
-            {BENEFITS.map((b) => (
-              <li key={b.title} className="flex gap-4">
+            {BENEFITS.map((benefit) => (
+              <li key={benefit.title} className="flex gap-4">
                 <span
                   aria-hidden="true"
                   className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-surface text-xl"
                 >
-                  {b.icon}
+                  {benefit.icon}
                 </span>
                 <div className="min-w-0">
                   <h3 className="font-display text-lg font-bold tracking-wide uppercase">
-                    {b.title}
+                    {benefit.title}
                   </h3>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {b.text}
+                    {benefit.text}
                   </p>
                 </div>
               </li>
@@ -167,10 +155,8 @@ function Index() {
           </ul>
         </section>
 
-        {/* URGÊNCIA — sem cronômetro nem número inventado; vagas reais aparecem dentro */}
         <UrgencyBlock />
 
-        {/* SEGUNDO CTA */}
         <section className="mt-12 border-t border-border pt-10">
           <h2 className="font-display text-3xl leading-tight font-bold uppercase sm:text-4xl">
             Entre gratuitamente no grupo
