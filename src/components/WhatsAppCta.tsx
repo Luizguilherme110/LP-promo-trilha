@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { WHATSAPP_GROUP_URL } from "@/config/site";
-import { trackWhatsAppClick } from "@/lib/tracking";
+import { startWhatsAppNavigation } from "@/lib/tracking";
 
 export function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -22,19 +23,24 @@ type Props = {
   className?: string;
 };
 
-/** Link oficial do grupo, sem parâmetros extras. O rastreio fica todo em trackWhatsAppClick(). */
+/** Link oficial do grupo, sem parâmetros extras. */
 export function WhatsAppCta({ location, children, className = "" }: Props) {
+  const [isNavigating, setIsNavigating] = useState(false);
+
   return (
     <a
       href={WHATSAPP_GROUP_URL}
-      target="_blank"
-      rel="noopener noreferrer"
       data-wa-cta={location}
-      onClick={() => trackWhatsAppClick(location)}
+      aria-busy={isNavigating}
+      aria-disabled={isNavigating}
+      onClick={(event) => {
+        event.preventDefault();
+        if (startWhatsAppNavigation(location)) setIsNavigating(true);
+      }}
       className={`inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-2xl bg-brand px-4 py-4 font-display text-lg font-extrabold tracking-wide text-brand-foreground uppercase transition-[background-color,box-shadow,transform] duration-300 min-[360px]:px-6 min-[360px]:text-xl hover:bg-brand/95 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:scale-[0.98] active:bg-brand/85 ${className}`}
     >
       <WhatsAppIcon className="h-6 w-6 shrink-0" />
-      <span>{children}</span>
+      <span aria-live="polite">{isNavigating ? "Abrindo WhatsApp…" : children}</span>
     </a>
   );
 }

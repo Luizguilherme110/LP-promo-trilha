@@ -230,6 +230,8 @@ type PixelWindow = Window & {
 /* ------------------------ Clique WhatsApp ------------------------- */
 
 let lastClickAt = 0;
+let whatsappNavigationStarted = false;
+const WHATSAPP_NAVIGATION_DELAY_MS = 2_000;
 
 /**
  * Função única para todos os CTAs do WhatsApp. Não bloqueia a navegação:
@@ -247,8 +249,21 @@ export function trackWhatsAppClick(location: string) {
   const w = window as PixelWindow;
   // Para esta campanha, o clique para entrar no grupo é o limite mensurável do funil
   // e funciona como Lead de otimização. A entrada real no grupo é medida separadamente.
-  if (typeof w.fbq === "function")
-    w.fbq("track", "Lead", { content_name: "grupo_whatsapp" });
+  if (typeof w.fbq === "function") w.fbq("track", "Lead", { content_name: "grupo_whatsapp" });
+}
+
+/**
+ * Registra a conversão e abre o grupo na mesma aba após uma janela curta
+ * para o Pixel concluir o envio. Retorna false se outro CTA já iniciou a navegação.
+ */
+export function startWhatsAppNavigation(location: string): boolean {
+  if (!isBrowser() || whatsappNavigationStarted) return false;
+  whatsappNavigationStarted = true;
+  trackWhatsAppClick(location);
+  window.setTimeout(() => {
+    window.location.assign(WHATSAPP_GROUP_URL);
+  }, WHATSAPP_NAVIGATION_DELAY_MS);
+  return true;
 }
 
 /* ------------------------- Inicialização -------------------------- */
