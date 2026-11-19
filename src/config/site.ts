@@ -6,8 +6,13 @@
  * segredo do Supabase ou credencial de banco.
  */
 
+/**
+ * Link ativo do grupo. O convite principal
+ * (https://chat.whatsapp.com/JQO7Au2ccCQF2C3K1E6lZd) está temporariamente
+ * suspenso desde 2026-11-18 — quando voltar, a LP vai alternar entre os dois.
+ */
 export const WHATSAPP_GROUP_URL =
-  "https://chat.whatsapp.com/JQO7Au2ccCQF2C3K1E6lZd";
+  "https://chat.whatsapp.com/JkDZF3w7dae7ZADWf8zV7h";
 
 /** ID público do Meta Pixel (não é segredo). */
 export const META_PIXEL_ID = "1100437415798248";
