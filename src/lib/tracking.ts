@@ -5,7 +5,8 @@
  * - Analytics próprio (analyticsProvider): eventos internos, UTMs, visita_id, tempo visível.
  * Sem credenciais, sem IP, sem dados pessoais, sem fingerprinting.
  */
-import { ANALYTICS_ENDPOINT, LP_SLUG, WHATSAPP_GROUP_URL } from "@/config/site";
+import { ANALYTICS_ENDPOINT, LP_SLUG } from "@/config/site";
+import { groupLink, resolveGroupLink } from "@/lib/group-link";
 
 const isBrowser = () => typeof window !== "undefined";
 const DEV = import.meta.env.DEV;
@@ -244,7 +245,7 @@ export function trackWhatsAppClick(location: string) {
   if (now - lastClickAt < 800) return;
   lastClickAt = now;
 
-  trackEvent("whatsapp_click", { location, destino: WHATSAPP_GROUP_URL });
+  trackEvent("whatsapp_click", { location, destino: groupLink() });
   flushEvents();
   const w = window as PixelWindow;
   // Para esta campanha, o clique para entrar no grupo é o limite mensurável do funil
@@ -261,7 +262,7 @@ export function startWhatsAppNavigation(location: string): boolean {
   whatsappNavigationStarted = true;
   trackWhatsAppClick(location);
   window.setTimeout(() => {
-    window.location.assign(WHATSAPP_GROUP_URL);
+    window.location.assign(groupLink());
   }, WHATSAPP_NAVIGATION_DELAY_MS);
   return true;
 }
@@ -276,6 +277,7 @@ export function initAnalytics() {
   initialized = true;
   if (DEV) (window as PixelWindow).__pdtAnalytics = analyticsProvider;
 
+  resolveGroupLink();
   captureParams();
   getVisitId();
   trackEvent("page_view", { visible_time_ms: 0 });

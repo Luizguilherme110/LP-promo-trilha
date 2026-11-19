@@ -11,8 +11,15 @@
  * (https://chat.whatsapp.com/JQO7Au2ccCQF2C3K1E6lZd) está temporariamente
  * suspenso desde 2026-11-18 — quando voltar, a LP vai alternar entre os dois.
  */
-export const WHATSAPP_GROUP_URL =
-  "https://chat.whatsapp.com/JkDZF3w7dae7ZADWf8zV7h";
+export const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/JkDZF3w7dae7ZADWf8zV7h";
+
+/**
+ * Link do grupo dinâmico: ao carregar, a LP pergunta aqui qual é o convite
+ * atual (destino cadastrado na aba Links do painel). Se não responder em 3 s,
+ * usa WHATSAPP_GROUP_URL acima. Vazio = sempre o link fixo.
+ */
+export const GROUP_LINK_ENDPOINT =
+  "https://servidor.tail67936f.ts.net/go/promocao-do-trilheiro?formato=json";
 
 /** ID público do Meta Pixel (não é segredo). */
 export const META_PIXEL_ID = "1100437415798248";
