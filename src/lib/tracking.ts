@@ -228,6 +228,26 @@ type PixelWindow = Window & {
   __pdtAnalytics?: typeof analyticsProvider;
 };
 
+function readCookie(name: string): string | null {
+  const prefix = `${name}=`;
+  const item = document.cookie
+    .split(";")
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(prefix));
+  if (!item) return null;
+  const value = item.slice(prefix.length);
+  if (!value) return null;
+  try {
+    return decodeURIComponent(value).slice(0, 500);
+  } catch {
+    return value.slice(0, 500);
+  }
+}
+
+function currentPageUrl(): string {
+  return `${window.location.origin}${window.location.pathname}`;
+}
+
 /* ------------------------ Clique WhatsApp ------------------------- */
 
 let lastClickAt = 0;
@@ -245,12 +265,24 @@ export function trackWhatsAppClick(location: string) {
   if (now - lastClickAt < 800) return;
   lastClickAt = now;
 
-  trackEvent("whatsapp_click", { location, destino: groupLink() });
+  // O mesmo ID segue no Pixel e no evento server-side para a Meta deduplicar
+  // as duas cópias da mesma conversão.
+  const eventId = randomId();
+  trackEvent("whatsapp_click", {
+    location,
+    destino: groupLink(),
+    event_id: eventId,
+    source_url: currentPageUrl(),
+    fbp: readCookie("_fbp"),
+    fbc: readCookie("_fbc"),
+  });
   flushEvents();
   const w = window as PixelWindow;
   // Para esta campanha, o clique para entrar no grupo é o limite mensurável do funil
   // e funciona como Lead de otimização. A entrada real no grupo é medida separadamente.
-  if (typeof w.fbq === "function") w.fbq("track", "Lead", { content_name: "grupo_whatsapp" });
+  if (typeof w.fbq === "function") {
+    w.fbq("track", "Lead", { content_name: "grupo_whatsapp" }, { eventID: eventId });
+  }
 }
 
 /**

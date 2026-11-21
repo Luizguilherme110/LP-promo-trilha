@@ -7,7 +7,7 @@ import { SITE_NAME } from "@/config/site";
 // (URL de Política de Privacidade, Termos e instruções de exclusão de dados).
 // Não carrega o analytics próprio (initAnalytics só roda na "/").
 const TITLE = `Política de Privacidade e Termos | ${SITE_NAME}`;
-const UPDATED_AT = "4 de outubro de 2026";
+const UPDATED_AT = "21 de novembro de 2026";
 const INSTAGRAM = "@trilheiro_promo";
 const INSTAGRAM_URL = "https://www.instagram.com/trilheiro_promo/";
 
@@ -63,10 +63,12 @@ function Privacidade() {
             os serviços citados abaixo.
           </p>
           <p>
-            <strong className="text-foreground">Nesta página:</strong> usamos o Meta Pixel e
-            métricas anônimas de navegação (página visitada, tempo na página, rolagem, cliques no
-            botão do WhatsApp e a origem da visita, como parâmetros UTM). Não coletamos nome,
-            telefone ou e-mail.
+            <strong className="text-foreground">Nesta página:</strong> usamos o Meta Pixel, a API de
+            Conversões da Meta e métricas de navegação (página visitada, tempo na página, rolagem,
+            cliques no botão do WhatsApp e a origem da visita, como parâmetros UTM). Para medir e
+            deduplicar conversões, dados técnicos como endereço IP, navegador e identificadores de
+            cookies da Meta podem ser enviados à Meta. Não coletamos nome, telefone ou e-mail nesta
+            página.
           </p>
           <p>
             <strong className="text-foreground">No Instagram ({INSTAGRAM}):</strong> quando você
